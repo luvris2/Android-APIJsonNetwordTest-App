@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                             int salary = c.optInt("employee_salary");
                             Employee employee = new Employee(id, name, age, salary);
                             employeeList.add(employee);
+
                         }
                         viewAdapter = new Adapter(MainActivity.this, employeeList);
                         recyclerView.setAdapter(viewAdapter);

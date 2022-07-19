@@ -1,6 +1,8 @@
 package com.luvris2.apidatagettestapp.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,13 +66,25 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
             imgDelete.setOnClickListener(view -> {
                 int index = getAdapterPosition();
-                employeeList.remove(index);
-                notifyDataSetChanged();
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setTitle(R.string.alert_title);
+                alert.setMessage(R.string.alert_message);
+                alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        employeeList.remove(index);
+                        notifyDataSetChanged();
+                    }
+                });
+                alert.setNegativeButton("아니오", null);
+                alert.show();
             });
 
             cardView.setOnClickListener(view -> {
                 int index = getAdapterPosition();
                 Intent intent = new Intent(context, EditActivity.class);
+
                 Employee employee = employeeList.get(index);
                 intent.putExtra("employee", employee);
                 intent.putExtra("index", index);

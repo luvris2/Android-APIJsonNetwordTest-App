@@ -24,11 +24,11 @@ public class EditActivity extends AppCompatActivity {
         // 액션바 back 버튼 설정
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Employee employee = (Employee) getIntent().getSerializableExtra("employee");
-
         editAge = findViewById(R.id.editAge);
         editSalary = findViewById(R.id.editSalary);
         btnSave = findViewById(R.id.btnSave);
+
+        Employee employee = (Employee) getIntent().getSerializableExtra("employee");
 
         editAge.setText(employee.employee_age+"");
         editSalary.setText(employee.employee_salary+"");
@@ -36,7 +36,6 @@ public class EditActivity extends AppCompatActivity {
         btnSave.setOnClickListener(view -> {
             int age = Integer.parseInt(editAge.getText().toString().trim());
             int salary = Integer.parseInt(editSalary.getText().toString().trim());
-
 
             // 데이터를 전달하기 위한 intent
             Intent intent = new Intent();
