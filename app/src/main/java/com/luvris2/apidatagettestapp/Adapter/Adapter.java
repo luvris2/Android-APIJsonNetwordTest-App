@@ -1,6 +1,7 @@
 package com.luvris2.apidatagettestapp.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.luvris2.apidatagettestapp.MainActivity;
 import com.luvris2.apidatagettestapp.Model.Employee;
 import com.luvris2.apidatagettestapp.R;
+import com.luvris2.apidatagettestapp.ui.EditActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     Context context;
@@ -38,8 +40,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Employee employee = employeeList.get(position);
         holder.txtName.setText(employee.employee_name);
-        holder.txtAge.setText(employee.employee_age+"");
-        holder.txtSalary.setText(employee.employee_salary+"");
+        holder.txtAge.setText("나이 : " + employee.employee_age);
+        holder.txtSalary.setText("연봉 : " + employee.employee_salary);
     }
 
     @Override
@@ -50,6 +52,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtName, txtAge, txtSalary;
         ImageView imgDelete;
+        CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -57,14 +60,21 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             txtAge = itemView.findViewById(R.id.txtAge);
             txtSalary = itemView.findViewById(R.id.txtSalary);
             imgDelete = itemView.findViewById(R.id.imgDelete);
+            cardView = itemView.findViewById(R.id.cardView);
 
-            imgDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int index = getAdapterPosition();
-                    employeeList.remove(index);
-                    notifyDataSetChanged();
-                }
+            imgDelete.setOnClickListener(view -> {
+                int index = getAdapterPosition();
+                employeeList.remove(index);
+                notifyDataSetChanged();
+            });
+
+            cardView.setOnClickListener(view -> {
+                int index = getAdapterPosition();
+                Intent intent = new Intent(context, EditActivity.class);
+                Employee employee = employeeList.get(index);
+                intent.putExtra("employee", employee);
+                intent.putExtra("index", index);
+                ((MainActivity)context).startActivityResult.launch(intent);
             });
         }
     }
